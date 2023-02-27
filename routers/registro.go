@@ -2,16 +2,17 @@ package routers
 
 import (
 	"encoding/json"
+
+	"net/http"
+
 	"github.com/wimuweb/red-twittor/db"
 	"github.com/wimuweb/red-twittor/models"
-	"net/http"
 )
 
 /* Registro es la funcion para crear en la BD el registro del usuario */
 func Registro(w http.ResponseWriter, r *http.Request) {
 	var t models.Usuario
 	err := json.NewDecoder(r.Body).Decode(&t)
-
 	if err != nil {
 		http.Error(w, "Error en los datos recibidos"+err.Error(), 400)
 		return
@@ -21,12 +22,13 @@ func Registro(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "El email de usuario es requerido", 400)
 		return
 	}
-	if len(t.Password) <= 6 {
+	if len(t.Password) < 6 {
 		http.Error(w, "Debe especificar una contraseña de al menos 6 carecteres", 400)
 		return
 	}
 
 	_, encontrado, _ := db.ChequeoYaExisteUsuario(t.Email)
+
 	if encontrado == true {
 		http.Error(w, "Ya existe un usuario registrado con ese email", 400)
 		return

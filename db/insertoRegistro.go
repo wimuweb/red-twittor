@@ -2,9 +2,11 @@ package db
 
 import (
 	"context"
+
+	"time"
+
 	"github.com/wimuweb/red-twittor/models"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"time"
 )
 
 /*InsertoRegistro es la para final con la BD para insertar los datos del usuario */
@@ -22,5 +24,7 @@ func InsertoRegistro(u models.Usuario) (string, bool, error) {
 	}
 
 	objID, _ := result.InsertedID.(primitive.ObjectID)
+
 	return objID.String(), true, nil
+
 }

@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+
 	"time"
 
 	"github.com/wimuweb/red-twittor/models"
@@ -16,12 +17,14 @@ func ChequeoYaExisteUsuario(email string) (models.Usuario, bool, string) {
 	db := MongoCN.Database("red-twittor")
 	col := db.Collection("usuarios")
 
-	condicion := bson.M{"emial": email}
+	condicion := bson.M{"email": email}
+
 	var resultado models.Usuario
 	err := col.FindOne(ctx, condicion).Decode(&resultado)
 	ID := resultado.ID.Hex()
 	if err != nil {
 		return resultado, false, ID
 	}
+
 	return resultado, true, ID
 }
