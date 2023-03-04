@@ -2,6 +2,7 @@ package routers
 
 import (
 	"errors"
+
 	"strings"
 
 	jwt "github.com/dgrijalva/jwt-go"
@@ -40,5 +41,6 @@ func ProcesoToken(tk string) (*models.Claim, bool, string, error) {
 	if !tkn.Valid {
 		return claims, false, string(""), errors.New("token invalido")
 	}
+
 	return claims, false, string(""), err
 }
